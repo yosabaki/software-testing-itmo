@@ -58,6 +58,7 @@ body {
 h1.title {
     cursor: pointer;
     display: inline-block;
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
     font-size: 80px;
@@ -111,7 +112,7 @@ h1.loading {
     padding: 16px 16px 16px 60px;
     border: none;
     background: rgba(0, 0, 0, 0.003);
-    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 }
 
 .new-book:hover {
@@ -133,9 +134,75 @@ h1.loading {
 .book-list li .view {
     position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: stretch;
     font-size: 24px;
     border-bottom: 1px solid #ededed;
+}
+
+.bookView {
+    display: block;
+    padding-bottom: 60px;
+}
+
+.bookView .bookHolder {
+    margin-left: 60px;
+    margin-right: 60px;
+    grid-template-columns: 30% 70%;
+    margin-top: 20px;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    grid-gap: 10px;
+}
+
+
+.bookView .title {
+    display: inline-block;
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 24px;
+}
+
+.bookView .description {
+    display: inline-block;
+    text-align: justify;
+    grid-column: 2;
+    grid-row: 1/3;
+}
+
+.bookView .pages {
+    display: inline-block;
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.book-list li .view .book {
+    display: inherit;
+    justify-content: stretch;
+    width: 100%;
+}
+
+.book-list li .view .title {
+    padding-left: 60px;
+    width: 30%;
+}
+
+.book-list li .view .description {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 16px;
+    margin: 0;
+    width: 50%;
+}
+
+.book-list li .view .pages {
+    margin-right: 45px;
+    padding-top: 15px;
+    text-align: right;
+    vertical-align: middle;
+    width: 5em;
+    font-size: 16px;
+
 }
 
 .book-list li .view:hover {
@@ -146,23 +213,10 @@ h1.loading {
     border-bottom: none;
 }
 
-.book-list li.editing {
-    border-bottom: none;
-    padding: 0;
-}
-
-.book-list li.editing .edit {
-    display: block;
-    width: 506px;
-    padding: 12px 16px;
-    margin: 0 0 0 43px;
-}
 
 .book-list li label {
-    cursor: pointer;
     word-break: break-all;
     padding: 15px 60px 15px 15px;
-    margin-left: 45px;
     display: block;
     line-height: 1.2;
     transition: color 0.4s;
@@ -182,9 +236,9 @@ h1.loading {
     width: 40px;
     height: 40px;
     margin: auto 0;
+    margin-top: 5px;
     font-size: 30px;
     color: #cc9a9a;
-    margin-bottom: 11px;
     transition: color 0.2s ease-out;
 }
 
@@ -200,12 +254,40 @@ h1.loading {
     display: block;
 }
 
-.book-list li .edit {
-    display: none;
+.editForm {
+    position: relative;
+    width: 100%;
+    line-height: 1.4em;
+    border: 0;
+    color: inherit;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 16px 60px 16px 60px;
+    border: none;
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 }
 
-.book-list li.editing:last-child {
-    margin-bottom: -1px;
+.editForm .element {
+    display: inline-block;
+    width: 100%;
+    margin-top: 32px;
+}
+
+.editForm textarea, input {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 0;
+    resize: vertical;
+    border-bottom: 1px solid #e6e6e6;
+    transition: border-color 0.15s;
+}
+
+.editForm textarea:focus:not([readonly]),input:focus:not([readonly]) {
+    border-bottom: 1px solid rgba(175, 47, 47, 0.5);;
+    box-shadow: 0 1px 0 0 rgba(175, 47, 47, 0.5);
 }
 
 .footer {
@@ -309,7 +391,7 @@ html .clear-completed:active {
 	Hack to remove background from Mobile Safari.
 	Can't use it globally since it destroys checkboxes in Firefox
 */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
     .toggle-all,
     .book-list li .toggle {
         background: none;
@@ -344,10 +426,10 @@ body {
 .error {
     font-size: 24px;
     font-weight: 400;
-    color:white;
+    color: white;
     text-align: center;
     border: 1px solid darkred;
-    padding:10px;
+    padding: 10px;
     background-color: #af5b5e;
     border-radius: 5px;
 }

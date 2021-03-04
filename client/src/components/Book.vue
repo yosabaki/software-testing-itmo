@@ -1,34 +1,21 @@
 <template>
-  <div class="book">
-    <label class="title"><b>{{ title }}</b></label>
-    <label class="description">{{ description }}</label>
-    <label class="pages">{{ readPages }}/{{ totalPages }}</label>
-  </div>
+  <label class="title"><b>{{ title }}</b></label>
+  <label class="description">{{ description }}</label>
+  <label class="pages">{{ readPages }}/{{ totalPages }}</label>
 </template>
 
 <script>
-export default {
+const Book = {
   name: 'Book',
   props: {
     title: String,
     description: String,
     readPages: Number,
     totalPages: Number
-  },
-  data () {
-    return {
-      editMode: false
-    }
-  },
-  computed: {
-    inprogress: function () {
-      return this.readPages < this.totalPages
-    },
-    completed: function () {
-      return this.readPages === this.totalPages
-    }
   }
 }
+
+export default Book
 </script>
 
 <style scoped>

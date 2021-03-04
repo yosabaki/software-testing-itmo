@@ -2,26 +2,27 @@
   <div v-if="loading">
     <h1 class="loading">Loading...</h1>
   </div>
-  <div v-else>
+  <div v-else id="LibrarySection">
     <header class="header">
-      <button class="new-book" v-if="!editMode"
-              v-on:click="addBook()">Add a new book
+      <button v-if="!editMode" class="new-book" v-on:click="addBook">
+          Add a new book
       </button>
-      <EditForm :read-pages="0" :title="''" :description="''" :total-pages="0"
-        v-else @edit-cancel="onEditCancel" @edit-done="onEditDone"></EditForm>
     </header>
-    <section class="main" v-show="books.length" v-cloak>
+    <EditForm ref="editBook" v-if="editMode" :read-pages="0" :title="''" :description="''" :total-pages="0"
+              @error-occurred="onErrorOccurred" @edit-cancel="onEditCancel" @edit-done="onEditDone"/>
+    <section v-else class="main" v-show="books.length" v-cloak>
       <ul class="book-list">
         <li v-for="book in filteredBooks"
             class="book"
             :key="book.id"
             :class="{ completed: book.completed, inprogress: book.inprogress }">
           <div class="view">
-            <Book :description="book.description"
-                  :readPages="book.readPages"
-                  :title="book.title"
-                  :totalPages="book.totalPages"
-                  @click="viewBook(book)"></Book>
+            <div @click="viewBook(book)" class="book">
+              <Book :description="book.description"
+                    :readPages="book.readPages"
+                    :title="book.title"
+                    :totalPages="book.totalPages"></Book>
+            </div>
             <button class="destroy" @click="removeBook(book)"></button>
           </div>
         </li>
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import api from '../Api'
+import api from '../api/Api'
 import Book from '@/components/Book'
 import EditForm from '@/components/EditForm'
 // visibility filters
@@ -70,10 +71,6 @@ const Library = {
     Book: Book,
     EditForm: EditForm
   },
-  props: {
-    activeUser: Object
-  },
-
   data () {
     return {
       books: [],
@@ -84,16 +81,17 @@ const Library = {
     }
   },
   mounted () {
-    api.getAll()
+    api.getAllBooks()
       .then(response => {
-        this.$log.debug('Data loaded: ', response.data)
+        this.$logger.debug('Data loaded: ', response.data)
         this.books = response.data
       })
       .catch(error => {
-        this.$log.debug(error)
-        this.error = 'Failed to load books'
+        this.$logger.debug(error)
+        this.$emit('errorOccurred', 'Failed to load books')
       })
       .finally(() => {
+        console.log('finally')
         this.loading = false
       })
   },
@@ -128,11 +126,14 @@ const Library = {
       this.visibility = vis
     },
     removeBook: function (book) { // notice NOT using "=>" syntax
-      api.removeForId(book.id).then(() => { // notice AM using "=>" syntax
-        this.$log.debug('Item removed:', book)
+      api.removeBookForId(book.id).then(() => { // notice AM using "=>" syntax
+        this.$logger.debug('Item removed:', book)
+        console.log(this.books)
         this.books.splice(this.books.indexOf(book), 1)
+        console.log(this.books)
       }).catch(error => {
-        this.$emit('errorOccurred', error)
+        this.$logger.debug(error)
+        this.$emit('errorOccurred', 'Failed to remove book')
       })
     },
     viewBook: function (book) {
@@ -142,23 +143,21 @@ const Library = {
       this.editMode = false
     },
     onEditDone: function (book) {
-      this.$logger.debug('assss')
       this.$logger.debug(book)
       this.editMode = false
-      api.createNew(book)
+      api.createNewBook(book)
         .then(response => {
-          this.$log.info('New data created: ', response.data)
-          this.books.push({
-            id: response.data.id,
-            title: book.title,
-            description: book.description,
-            readPages: book.readPages,
-            totalPages: book.totalPages
-          })
+          this.$logger.info('New data created: ', response.data)
+          this.books.push(response.data)
         })
         .catch(error => {
-          this.$emit('errorOccurred', error)
+          this.$logger.debug(error)
+          this.$emit('errorOccurred', 'Failed to create a new book')
         })
+    },
+    onErrorOccurred: function (error) {
+      console.log('you are here')
+      this.$emit('errorOccurred', error)
     }
   },
 

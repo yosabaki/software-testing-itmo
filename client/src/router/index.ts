@@ -10,6 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/book/:id',
+    props: true,
     name: 'Book',
     component: ViewBook
   }

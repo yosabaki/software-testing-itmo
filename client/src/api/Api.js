@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export default {
   // (C)reate
-  createNew: (book) => {
+  createNewBook: (book) => {
     return instance.post('books', {
       title: book.title,
       description: book.description,
@@ -19,14 +19,14 @@ export default {
   },
 
   // (R)ead
-  getAll: () => {
+  getAllBooks: () => {
     return instance.get('books', {
       transformResponse: [function (data) {
         return data ? JSON.parse(data)._embedded.books : data
       }]
     })
   },
-  getById: (id) => {
+  getBookById: (id) => {
     return instance.get('books/' + id, {
       transformResponse: [function (data) {
         return data ? JSON.parse(data) : data
@@ -35,7 +35,7 @@ export default {
   },
 
   // (U)pdate
-  updateForId: (id, book) => {
+  updateBookForId: (id, book) => {
     return instance.put('books/' + id, {
       title: book.title,
       description: book.description,
@@ -45,7 +45,7 @@ export default {
   },
 
   // (D)elete
-  removeForId: (id) => {
+  removeBookForId: (id) => {
     return instance.delete('books/' + id)
   }
 }
