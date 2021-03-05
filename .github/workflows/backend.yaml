@@ -14,4 +14,5 @@ jobs:
         with:
           java-version: 11
       - name: Test with Gradle
+        working-directory: backend
         run: ./gradlew test
