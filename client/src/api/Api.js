@@ -15,23 +15,48 @@ export default {
       description: book.description,
       readPages: book.readPages,
       totalPages: book.totalPages
-    })
+    }, { withCredentials: true })
+  },
+
+  register: (username, password) => {
+    return instance.post('users/register', {
+      username: username,
+      password: password
+    }, { withCredentials: true })
   },
 
   // (R)ead
   getAllBooks: () => {
     return instance.get('books', {
       transformResponse: [function (data) {
-        return data ? JSON.parse(data)._embedded.books : data
-      }]
+        return data ? JSON.parse(data) : data
+      }],
+      withCredentials: true
     })
   },
+
+  checkConnection: () => {
+    return instance.get('users/', { withCredentials: true })
+  },
+
   getBookById: (id) => {
     return instance.get('books/' + id, {
       transformResponse: [function (data) {
         return data ? JSON.parse(data) : data
-      }]
+      }],
+      withCredentials: true
     })
+  },
+
+  logout: () => {
+    return instance.post('/users/logout', {}, { withCredentials: true })
+  },
+
+  login: (username, password) => {
+    return instance.post('/users/login', {
+      username: username,
+      password: password
+    }, { withCredentials: true })
   },
 
   // (U)pdate
@@ -41,11 +66,11 @@ export default {
       description: book.description,
       readPages: book.readPages,
       totalPages: book.totalPages
-    })
+    }, { withCredentials: true })
   },
 
   // (D)elete
   removeBookForId: (id) => {
-    return instance.delete('books/' + id)
+    return instance.delete('books/' + id, { withCredentials: true })
   }
 }

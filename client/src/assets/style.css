@@ -70,7 +70,7 @@ h1.title {
     text-rendering: optimizeLegibility;
 }
 
-h1.email {
+h1.username {
     width: 100%;
     font-size: 30px;
     line-height: 30px;
@@ -200,7 +200,7 @@ h1.loading {
     padding-top: 15px;
     text-align: right;
     vertical-align: middle;
-    width: 5em;
+    width: 7em;
     font-size: 16px;
 
 }
@@ -350,6 +350,11 @@ h1.loading {
 
 .filters li label.selected {
     border-color: rgba(175, 47, 47, 0.2);
+}
+.filters .logout {
+    position: absolute;
+    right: 20px;
+    bottom: -6px;
 }
 
 .clear-completed,

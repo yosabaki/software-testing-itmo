@@ -1,37 +1,50 @@
 <template>
   <div class="title-container">
     <h1 class="title" @click="logoClick">Library App</h1>
-    <h1 class="email">{{userEmail}}</h1>
+    <h1 class="username">{{ username }}</h1>
   </div>
   <section class="libraryApp">
-  <router-view :key="$route.fullPath" ref="childComponent" @error-occurred="onErrorOccurred"/>
+    <RegistrationForm @login="onLogin"
+                      @register="onRegister"
+                      @error-occurred="onErrorOccurred"
+                      v-if="username == null"></RegistrationForm>
+    <router-view v-else @logout="onLogout" :key="$route.fullPath" ref="childComponent"
+                 @error-occurred="onErrorOccurred"/>
   </section>
   <footer>
-  <div v-if="error" class="error" @click="handleErrorClick">
-    ERROR: {{error}}
-  </div>
+    <div v-if="error" class="error" @click="handleErrorClick">
+      ERROR: {{ error }}
+    </div>
   </footer>
 </template>
 <script>
-import Library from '@/views/Library'
-import ViewBook from '@/views/ViewBook'
+import RegistrationForm from '@/components/RegistrationForm'
+import api from '@/api/Api'
+
 import('./assets/style.css')
 
 export default {
   name: 'App',
-  components: [
-    Library, ViewBook
-  ],
+  components: {
+    RegistrationForm: RegistrationForm
+  },
   data () {
     return {
       loading: true,
-      error: null
+      error: null,
+      username: null
     }
   },
-  computed: {
-    userEmail: function () {
-      return this.activeUser ? this.activeUser.email : ''
-    }
+  mounted () {
+    api.checkConnection()
+      .then(response => {
+        this.$logger.debug('Data loaded: ', response.data)
+        this.username = response.data.username
+      })
+      .catch(error => {
+        this.$logger.debug(error.message)
+        this.$emit('errorOccurred', 'Failed to load books')
+      })
   },
   methods: {
     logoClick: function () {
@@ -40,6 +53,32 @@ export default {
       } else {
         this.$router.push('/')
       }
+    },
+    onLogout: function () {
+      api.logout()
+        .then(response => {
+          this.$logger.debug('logout')
+          this.username = response.data.username
+        })
+    },
+    onLogin: function (username, password) {
+      this.$logger.debug(username, password)
+      api.login(username, password)
+        .then(response => {
+          this.$logger.debug(response.headers['set-cookie'])
+          this.$logger.debug(response)
+          this.$logger.debug(document.cookie)
+          this.username = response.data.username
+        })
+    },
+    onRegister: function (username, password) {
+      api.register(username, password)
+        .then(response => {
+          this.$logger.debug(response)
+          this.$logger.debug(response.headers)
+          this.$logger.debug(document.cookie)
+          this.username = response.data.username
+        })
     },
     handleErrorClick: function () {
       this.error = null

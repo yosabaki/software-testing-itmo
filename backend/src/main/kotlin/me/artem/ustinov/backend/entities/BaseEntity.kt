@@ -1,4 +1,4 @@
-package me.artem.ustinov.backend
+package me.artem.ustinov.backend.entities
 
 import org.springframework.data.util.ProxyUtils
 import javax.persistence.GeneratedValue

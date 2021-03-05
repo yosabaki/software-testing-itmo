@@ -38,6 +38,9 @@
           <li><label @click="setVisibility('completed')"
                      :class="{ selected: visibility === 'completed' }">Completed</label>
           </li>
+          <li><label @click="$emit('logout')"
+                     class="logout">Logout</label>
+          </li>
         </ul>
       </footer>
     </section>
@@ -87,11 +90,10 @@ const Library = {
         this.books = response.data
       })
       .catch(error => {
-        this.$logger.debug(error)
+        this.$logger.debug(error.message)
         this.$emit('errorOccurred', 'Failed to load books')
       })
       .finally(() => {
-        console.log('finally')
         this.loading = false
       })
   },
