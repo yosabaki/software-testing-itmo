@@ -87,7 +87,11 @@ const Library = {
     api.getAllBooks()
       .then(response => {
         this.$logger.debug('Data loaded: ', response.data)
-        this.books = response.data
+        if (Array.isArray(response.data)) {
+          this.books = response.data
+        } else {
+          this.books = response.data.data
+        }
       })
       .catch(error => {
         this.$logger.debug(error.message)

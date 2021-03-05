@@ -9,8 +9,8 @@
     </div>
   </div>
   <header class="header">
-    <button id="saveEditForm" class="new-book" @click="onLogin">Login</button>
-    <button id="cancelEditForm" class="new-book" @click="onRegister">Register</button>
+    <button id="loginButton" class="new-book" @click="onLogin">Login</button>
+    <button id="registerButton" class="new-book" @click="onRegister">Register</button>
   </header>
 </template>
 

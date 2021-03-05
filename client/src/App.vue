@@ -1,7 +1,7 @@
 <template>
   <div class="title-container">
     <h1 class="title" @click="logoClick">Library App</h1>
-    <h1 class="username">{{ username }}</h1>
+    <h1 id="username" class="username">{{ username }}</h1>
   </div>
   <section class="libraryApp">
     <RegistrationForm @login="onLogin"
@@ -12,7 +12,7 @@
                  @error-occurred="onErrorOccurred"/>
   </section>
   <footer>
-    <div v-if="error" class="error" @click="handleErrorClick">
+    <div id="error" v-if="error" class="error" @click="handleErrorClick">
       ERROR: {{ error }}
     </div>
   </footer>
@@ -65,9 +65,7 @@ export default {
       this.$logger.debug(username, password)
       api.login(username, password)
         .then(response => {
-          this.$logger.debug(response.headers['set-cookie'])
           this.$logger.debug(response)
-          this.$logger.debug(document.cookie)
           this.username = response.data.username
         })
     },
@@ -75,8 +73,6 @@ export default {
       api.register(username, password)
         .then(response => {
           this.$logger.debug(response)
-          this.$logger.debug(response.headers)
-          this.$logger.debug(document.cookie)
           this.username = response.data.username
         })
     },
