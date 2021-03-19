@@ -14,4 +14,15 @@ class Book(
     var readPages: Int = 0,
     var totalPages: Int = 0,
     var userId: Long? = null
-) : BaseEntity()
+) : BaseEntity() {
+    constructor(
+        id: Long,
+        title: String,
+        description: String,
+        readPages: Int,
+        totalPages: Int,
+        userId: Long
+    ) : this(title, description, readPages, totalPages, userId) {
+        this.id = id
+    }
+}

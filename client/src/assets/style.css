@@ -228,7 +228,7 @@ h1.loading {
 }
 
 .book-list li .destroy {
-    display: none;
+    display: block;
     position: absolute;
     top: 0;
     right: 10px;
@@ -248,10 +248,6 @@ h1.loading {
 
 .book-list li .destroy:after {
     content: '×';
-}
-
-.book-list li:hover .destroy {
-    display: block;
 }
 
 .editForm {

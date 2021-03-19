@@ -6,7 +6,7 @@ describe('App Tests', () => {
     cy.route('GET', '/users', {
       username: 'testUser'
     })
-    cy.route('get', '/books', {
+    cy.route('GET', '/books', {
       data: []
     })
     cy.visit('/')

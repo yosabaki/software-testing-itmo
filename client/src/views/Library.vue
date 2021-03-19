@@ -10,10 +10,10 @@
     </header>
     <EditForm ref="editBook" v-if="editMode" :read-pages="0" :title="''" :description="''" :total-pages="0"
               @error-occurred="onErrorOccurred" @edit-cancel="onEditCancel" @edit-done="onEditDone"/>
-    <section v-else class="main" v-show="books.length" v-cloak>
+    <section v-else class="main">
       <ul class="book-list">
         <li v-for="book in filteredBooks"
-            class="book"
+            class="books"
             :key="book.id"
             :class="{ completed: book.completed, inprogress: book.inprogress }">
           <div class="view">
@@ -27,7 +27,7 @@
           </div>
         </li>
       </ul>
-      <footer class="footer" v-show="books.length" v-cloak>
+      <footer class="footer">
           <span class="book-count">
             <strong>{{ remaining }}</strong> {{ pluralize }} are in progress
           </span>
