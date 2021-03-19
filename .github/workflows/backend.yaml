@@ -2,10 +2,15 @@ name: Backend
 
 on:
   push:
-    branches: [ main ]
+    paths:
+      - backend/**
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
-
+    paths:
+      - backend/**
+    branches:
+      - main
 defaults:
   run:
     working-directory: backend

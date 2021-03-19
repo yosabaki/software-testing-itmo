@@ -2,9 +2,15 @@ name: Client
 
 on:
   push:
-    branches: [ main ]
+    paths:
+      - client/**
+    branches:
+      - main
   pull_request:
-    bracnhes: [ main ]
+    paths:
+      - client/**
+    branches:
+      - main
 
 jobs:
   run-tests:
