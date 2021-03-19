@@ -19,7 +19,9 @@ val postgreSQLContainer = PostgreSQLContainer<Nothing>("postgres:13").apply {
     withDatabaseName("integration-tests-db")
     withUsername("artem")
     withPassword("artem")
+    start()
 }
+
 
 @SpringBootTest
 @Testcontainers
@@ -31,7 +33,6 @@ class BookControllerTest {
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
-            postgreSQLContainer.start()
             TestPropertyValues.of(
                 "spring.datasource.url=" + postgreSQLContainer.jdbcUrl,
                 "spring.datasource.username=" + postgreSQLContainer.username,

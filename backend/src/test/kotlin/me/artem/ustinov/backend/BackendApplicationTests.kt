@@ -10,7 +10,7 @@ class BackendApplicationTests(@Autowired val restTemplateBuilder: RestTemplateBu
 
     @Test
     fun contextLoads() {
-        val restTemplate = restTemplateBuilder.build()
+//        val restTemplate = restTemplateBuilder.build()
 //        val response = restTemplate.getForEntity("/")
     }
 
