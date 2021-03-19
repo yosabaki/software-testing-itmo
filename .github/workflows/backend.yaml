@@ -25,4 +25,4 @@ jobs:
         with:
           java-version: 11
       - name: Test with Gradle
-        run: gradle test --stacktrace
+        run: gradle test --stacktrace --tests "me.artem.ustinov.backend.*"
